@@ -157,7 +157,7 @@
 <script>
 
   /* 🔥 여기에 네 Apps Script URL 넣어 */
-  const API_URL = "https://script.google.com/macros/s/AKfycbwDzxkJPxU9uLqT0EAHClmzGWqvWj63CuEFCjvI4MNWSJVectXFu8ulOayjTJqKvP-T/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbySRIq6REk5Efos4e67ZI8N3WGilDzIaTjL9tvAFfoJFIRPSotJ_SDe1vlsGv3gl8EA/exec";
 
   const roomList = document.getElementById("roomList");
 
@@ -216,11 +216,12 @@
         "Content-Type":"application/json"
       },
       body:JSON.stringify({
-        room:room
+        room: room,
+        sheet: "5"
       })
     })
-      .then(res=>res.text())
-      .then(()=>{
+      .then(res => res.text())
+      .then(data => {
 
         const status = document.getElementById("status-"+room);
         if(status){

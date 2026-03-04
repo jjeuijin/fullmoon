@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧹 청소팀 객실 점검</title>
+
+  <style>
+
+    /* ===== 기본 리셋 ===== */
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body{
+      background: linear-gradient(135deg,#eef2f7,#dfe7f3);
+      padding:16px;
+    }
+
+    /* ===== 헤더 ===== */
+    h2{
+      text-align:center;
+      margin-bottom:20px;
+      font-size:22px;
+      font-weight:600;
+      color:#1e293b;
+    }
+
+    /* ===== 객실 카드 ===== */
+    .room-card{
+      background:white;
+      border-radius:18px;
+      padding:20px;
+      margin-bottom:14px;
+
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+
+      box-shadow:
+        0 4px 10px rgba(0,0,0,0.04),
+        0 1px 3px rgba(0,0,0,0.06);
+
+      transition:all 0.2s ease;
+    }
+
+    .room-card:active{
+      transform:scale(0.98);
+    }
+
+    /* ===== 호실 번호 ===== */
+    .room-number{
+      font-size:22px;
+      font-weight:700;
+      color:#111827;
+    }
+
+    /* ===== 상태 표시 ===== */
+    .status{
+      font-size:13px;
+      padding:6px 12px;
+      border-radius:20px;
+      background:#e5e7eb;
+      color:#374151;
+      font-weight:500;
+      transition:0.3s;
+    }
+
+    /* 완료 상태 */
+    .done{
+      background:#22c55e !important;
+      color:white;
+    }
+
+    /* ===== 버튼 ===== */
+    .clean-btn{
+      background: linear-gradient(135deg,#2563eb,#1d4ed8);
+      color:white;
+
+      border:none;
+      padding:10px 16px;
+      border-radius:12px;
+
+      font-size:14px;
+      font-weight:600;
+
+      cursor:pointer;
+      transition:all 0.2s ease;
+
+      box-shadow:0 4px 8px rgba(37,99,235,0.3);
+    }
+
+    .clean-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 6px 14px rgba(37,99,235,0.4);
+    }
+
+    .clean-btn:active{
+      transform:scale(0.95);
+    }
+
+    /* ===== 모바일 최적화 ===== */
+    @media (max-width:480px){
+
+      body{
+        padding:12px;
+      }
+
+      .room-number{
+        font-size:18px;
+      }
+
+      .clean-btn{
+        padding:8px 12px;
+        font-size:13px;
+      }
+
+    }
+    /* ===== 불러오기 버튼 ===== */
+    .reload-btn{
+      display:block;
+      margin:0 auto 15px auto;
+
+      background:#0ea5e9;
+      color:white;
+
+      border:none;
+      padding:10px 18px;
+      border-radius:12px;
+
+      font-size:14px;
+      font-weight:600;
+
+      cursor:pointer;
+
+      box-shadow:0 4px 10px rgba(14,165,233,0.3);
+      transition:0.2s;
+    }
+
+    .reload-btn:active{
+      transform:scale(0.95);
+    }
+
+  </style>
+</head>
+<body>
+
+<h2>🧹 청소팀 객실 점검</h2>
+<button class="reload-btn" onclick="loadRooms()">
+  📥 불러오기
+</button>
+<div id="roomList"></div>
+
+<script>
+
+  /* 🔥 여기에 네 Apps Script URL 넣어 */
+  const API_URL = "https://script.google.com/macros/s/AKfycbzzBLl4hv0y3BJ_KQ3OXQI_SM_kkdF_KM2wLTEPX0x6TEAhY00eVJqYki7eIKGmvITd/exec";
+
+  const roomList = document.getElementById("roomList");
+
+
+  /* ===============================
+     🔥 룸리스트 불러오기
+  ================================*/
+  function loadRooms(){
+
+    roomList.innerHTML = "";
+
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(rooms => {
+
+        rooms.forEach(room => {
+
+          const card = document.createElement("div");
+          card.className = "room-card";
+
+          card.innerHTML = `
+        <div>
+          <div class="room-number">호실 ${room}</div>
+          <div class="status" id="status-${room}">
+            미점검
+          </div>
+        </div>
+
+        <button class="clean-btn"
+          onclick="completeCheck('${room}')">
+          점검완료
+        </button>
+      `;
+
+          roomList.appendChild(card);
+
+        });
+
+      })
+      .catch(err=>{
+        alert("룸리스트 불러오기 실패");
+        console.error(err);
+      });
+
+  }
+
+
+  /* ===============================
+     🔥 점검 완료 전송
+  ================================*/
+  function completeCheck(room){
+
+    fetch(API_URL,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        room:room
+      })
+    })
+      .then(res=>res.text())
+      .then(()=>{
+
+        const status = document.getElementById("status-"+room);
+        if(status){
+          status.innerText = "✔ 점검완료";
+          status.classList.add("done");
+        }
+
+      })
+      .catch(err=>{
+        alert("저장 실패");
+        console.error(err);
+      });
+
+  }
+
+
+  /* 🔥 페이지 열릴 때 자동 실행 */
+  loadRooms();
+
+</script>
+
+</body>
+</html>

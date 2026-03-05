@@ -1,6 +1,8 @@
-<html lang="ko"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🧹 청소팀 객실 점검</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 
@@ -87,14 +89,14 @@
     #roomList {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 16px;
       margin-top: 20px;
     }
 
     .room-card {
       background: white;
-      border-radius: 15px;
-      padding: 10px;
+      border-radius: 20px;
+      padding: 18px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
       position: relative;
       overflow: hidden;
@@ -129,9 +131,9 @@
       transition: 0.3s;
       white-space: nowrap;
       position: absolute;
-      top: 6px;      /* 12px → 6px */
-      right: 8px;    /* 12px → 8px */
-      z-index: 2;
+      top: 12px;
+      right: 12px;
+      z-index: 1;
     }
     .done {
       background: #22c55e !important;
@@ -229,11 +231,21 @@
 🔥 모바일에서 카드 패딩 줄이기
 =================================*/
     @media (max-width: 600px) {
-      .status {
-        top:4px;
-        right:2px;
-        font-size:11px;
+
+      .room-card {
+        padding: 12px;   /* 🔥 기존 18px → 줄임 */
       }
+
+      .room-number {
+        font-size: 22px;  /* 🔥 숫자도 조금 줄이기 */
+      }
+
+      .status {
+        top: 8px;
+        right: 8px;
+        font-size: 12px;
+      }
+
     }
     /* ===============================
 🔥 상단 헤더
@@ -374,21 +386,21 @@
   </style>
 </head>
 <body>
-<img src="img/logo.png" style="width: 250px; height: auto">
+<img src="img/logo.png" style="width: 250px; height: auto" />
 <div class="divider"></div>
-<div id="loginForm" style="display: none;">
-  <input type="text" id="username" placeholder="아이디 입력">
-  <input type="password" id="password" placeholder="비밀번호 입력">
+<div id="loginForm">
+  <input type="text" id="username" placeholder="아이디 입력" />
+  <input type="password" id="password" placeholder="비밀번호 입력" />
   <button onclick="login()">로그인</button>
 </div>
 
 <!-- 필터 버튼 -->
 <div class="header">
 
-  <div id="filterBtns" style="display: flex;">
+  <div id="filterBtns" style="display:none">
     <button data-filter="all" class="active">전체</button>
-    <button data-filter="퇴실" class="">퇴실</button>
-    <button data-filter="재실" class="">재실</button>
+    <button data-filter="퇴실">퇴실</button>
+    <button data-filter="재실">재실</button>
   </div>
 
   <div class="header-buttons">
@@ -400,357 +412,7 @@
 </div>
 
 
-<div id="roomList" style="display: grid;"><div class="room-card completed">
-  <div class="watermark">
-    <img src="img/logo.png">
-  </div>
-
-  <div class="complete-overlay">
-    <span>✔</span>
-    <div>청소 완료</div>
-  </div>
-
-  <div class="card-content">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-
-      <div>
-        <div class="room-number">701</div>
-
-        <div class="room-info">
-          디트 ·
-          <span class="status-out">
-                퇴실
-              </span>
-        </div>
-      </div>
-
-      <div class="status done" id="status-701">
-        ✔ 청소완료
-      </div>
-
-    </div>
-
-    <button class="clean-btn" onclick="completeCheck('701')">
-      청소 완료
-    </button>
-
-  </div>
-</div><div class="room-card completed">
-  <div class="watermark">
-    <img src="img/logo.png">
-  </div>
-
-  <div class="complete-overlay">
-    <span>✔</span>
-    <div>청소 완료</div>
-  </div>
-
-  <div class="card-content">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-
-      <div>
-        <div class="room-number">702</div>
-
-        <div class="room-info">
-          디트 ·
-          <span class="status-out">
-                퇴실
-              </span>
-        </div>
-      </div>
-
-      <div class="status done" id="status-702">
-        ✔ 청소완료
-      </div>
-
-    </div>
-
-    <button class="clean-btn" onclick="completeCheck('702')">
-      청소 완료
-    </button>
-
-  </div>
-</div><div class="room-card ">
-  <div class="watermark">
-    <img src="img/logo.png">
-  </div>
-
-  <div class="complete-overlay">
-    <span>✔</span>
-    <div>청소 완료</div>
-  </div>
-
-  <div class="card-content">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-
-      <div>
-        <div class="room-number">703</div>
-
-        <div class="room-info">
-          디트 ·
-          <span class="status-out">
-                퇴실
-              </span>
-        </div>
-      </div>
-
-      <div class="status " id="status-703">
-        미점검
-      </div>
-
-    </div>
-
-    <button class="clean-btn" onclick="completeCheck('703')">
-      청소 완료
-    </button>
-
-  </div>
-</div><div class="room-card ">
-  <div class="watermark">
-    <img src="img/logo.png">
-  </div>
-
-  <div class="complete-overlay">
-    <span>✔</span>
-    <div>청소 완료</div>
-  </div>
-
-  <div class="card-content">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-
-      <div>
-        <div class="room-number">602</div>
-
-        <div class="room-info">
-          트윈 ·
-          <span class="status-out">
-                퇴실
-              </span>
-        </div>
-      </div>
-
-      <div class="status " id="status-602">
-        미점검
-      </div>
-
-    </div>
-
-    <button class="clean-btn" onclick="completeCheck('602')">
-      청소 완료
-    </button>
-
-  </div>
-</div><div class="room-card ">
-  <div class="watermark">
-    <img src="img/logo.png">
-  </div>
-
-  <div class="complete-overlay">
-    <span>✔</span>
-    <div>청소 완료</div>
-  </div>
-
-  <div class="card-content">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-
-      <div>
-        <div class="room-number">617</div>
-
-        <div class="room-info">
-          트윈 ·
-          <span class="status-out">
-                퇴실
-              </span>
-        </div>
-      </div>
-
-      <div class="status " id="status-617">
-        미점검
-      </div>
-
-    </div>
-
-    <button class="clean-btn" onclick="completeCheck('617')">
-      청소 완료
-    </button>
-
-  </div>
-</div><div class="room-card ">
-  <div class="watermark">
-    <img src="img/logo.png">
-  </div>
-
-  <div class="complete-overlay">
-    <span>✔</span>
-    <div>청소 완료</div>
-  </div>
-
-  <div class="card-content">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-
-      <div>
-        <div class="room-number">618</div>
-
-        <div class="room-info">
-          트윈 ·
-          <span class="status-out">
-                퇴실
-              </span>
-        </div>
-      </div>
-
-      <div class="status " id="status-618">
-        미점검
-      </div>
-
-    </div>
-
-    <button class="clean-btn" onclick="completeCheck('618')">
-      청소 완료
-    </button>
-
-  </div>
-</div><div class="room-card ">
-  <div class="watermark">
-    <img src="img/logo.png">
-  </div>
-
-  <div class="complete-overlay">
-    <span>✔</span>
-    <div>청소 완료</div>
-  </div>
-
-  <div class="card-content">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-
-      <div>
-        <div class="room-number">619</div>
-
-        <div class="room-info">
-          트윈 ·
-          <span class="status-out">
-                퇴실
-              </span>
-        </div>
-      </div>
-
-      <div class="status " id="status-619">
-        미점검
-      </div>
-
-    </div>
-
-    <button class="clean-btn" onclick="completeCheck('619')">
-      청소 완료
-    </button>
-
-  </div>
-</div><div class="room-card ">
-  <div class="watermark">
-    <img src="img/logo.png">
-  </div>
-
-  <div class="complete-overlay">
-    <span>✔</span>
-    <div>청소 완료</div>
-  </div>
-
-  <div class="card-content">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-
-      <div>
-        <div class="room-number">801</div>
-
-        <div class="room-info">
-          디트 ·
-          <span class="status-out">
-                퇴실
-              </span>
-        </div>
-      </div>
-
-      <div class="status " id="status-801">
-        미점검
-      </div>
-
-    </div>
-
-    <button class="clean-btn" onclick="completeCheck('801')">
-      청소 완료
-    </button>
-
-  </div>
-</div><div class="room-card ">
-  <div class="watermark">
-    <img src="img/logo.png">
-  </div>
-
-  <div class="complete-overlay">
-    <span>✔</span>
-    <div>청소 완료</div>
-  </div>
-
-  <div class="card-content">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-
-      <div>
-        <div class="room-number">819</div>
-
-        <div class="room-info">
-          트윈 ·
-          <span class="status-out">
-                퇴실
-              </span>
-        </div>
-      </div>
-
-      <div class="status " id="status-819">
-        미점검
-      </div>
-
-    </div>
-
-    <button class="clean-btn" onclick="completeCheck('819')">
-      청소 완료
-    </button>
-
-  </div>
-</div><div class="room-card ">
-  <div class="watermark">
-    <img src="img/logo.png">
-  </div>
-
-  <div class="complete-overlay">
-    <span>✔</span>
-    <div>청소 완료</div>
-  </div>
-
-  <div class="card-content">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-
-      <div>
-        <div class="room-number">906</div>
-
-        <div class="room-info">
-          디트 ·
-          <span class="status-out">
-                퇴실
-              </span>
-        </div>
-      </div>
-
-      <div class="status " id="status-906">
-        미점검
-      </div>
-
-    </div>
-
-    <button class="clean-btn" onclick="completeCheck('906')">
-      청소 완료
-    </button>
-
-  </div>
-</div></div>
+<div id="roomList" style="display: none"></div>
 
 <script>
   const API_URL =
@@ -886,46 +548,25 @@
     }
   });
 </script>
+<div class="fab-container" id="fabContainer" style="display:none;">
 
-<script>
-  (function () {
-    var w = window;
-    if (w.ChannelIO) {
-      return w.console.error("ChannelIO script included twice.");
-    }
-    var ch = function () {
-      ch.c(arguments);
-    };
-    ch.q = [];
-    ch.c = function (args) {
-      ch.q.push(args);
-    };
-    w.ChannelIO = ch;
-    function l() {
-      if (w.ChannelIOInitialized) {
-        return;
-      }
-      w.ChannelIOInitialized = true;
-      var s = document.createElement("script");
-      s.type = "text/javascript";
-      s.async = true;
-      s.src = "https://cdn.channel.io/plugin/ch-plugin-web.js";
-      var x = document.getElementsByTagName("script")[0];
-      if (x.parentNode) {
-        x.parentNode.insertBefore(s, x);
-      }
-    }
-    if (document.readyState === "complete") {
-      l();
-    } else {
-      w.addEventListener("DOMContentLoaded", l);
-      w.addEventListener("load", l);
-    }
-  })();
+  <button class="fab-main" onclick="toggleFab()">
+    <i class="fa-solid fa-bars"></i>
+  </button>
 
-  ChannelIO("boot", {
-    pluginKey: "02ef5da3-5a19-49e9-a39d-19126119aaa9",
-  });
-</script>
+  <div class="fab-menu">
 
-</body></html>
+    <button class="fab-btn" onclick="loadRooms()">
+      <i class="fa-solid fa-rotate"></i>
+    </button>
+
+    <button class="fab-btn">
+      <i class="fa-solid fa-comment-dots"></i>
+    </button>
+
+  </div>
+
+</div>
+</body>
+</html>
+

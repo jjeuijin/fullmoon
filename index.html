@@ -6,72 +6,250 @@
   <title>🧹 청소팀 객실 점검</title>
 
   <style>
-    * { box-sizing: border-box; margin:0; padding:0; font-family:"Segoe UI",sans-serif; }
-    body { background:#f4f6fb; padding:20px; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+    }
+    body {
+      background: #f4f6fb;
+      padding: 20px;
+    }
 
-    h2 { text-align:center; margin-bottom:20px; font-size:24px; font-weight:700; color:#1e293b; }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e293b;
+    }
 
-    #loginForm, #roomList { max-width:600px; margin:0 auto; }
+    #loginForm,
+    #roomList {
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-    #loginForm { display:flex; flex-direction:column; gap:10px; padding:20px; background:white; border-radius:15px; box-shadow:0 6px 20px rgba(0,0,0,0.05); }
-    #loginForm input { padding:10px; font-size:16px; border-radius:10px; border:1px solid #ccc; }
-    #loginForm button { padding:10px; font-size:16px; border-radius:12px; border:none; background:#2563eb; color:white; font-weight:600; cursor:pointer; }
-    #loginForm button:hover { opacity:0.9; }
+    #loginForm {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    }
+    #loginForm input {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    #loginForm button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #loginForm button:hover {
+      opacity: 0.9;
+    }
 
     /* ===============================
-       🔥 필터 버튼
-    =================================*/
+🔥 필터 버튼
+=================================*/
     #filterBtns {
-      display:flex;
-      justify-content:center;
-      gap:10px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
       margin: 20px auto 10px auto;
-      max-width:600px;
+      max-width: 600px;
     }
     #filterBtns button {
-      padding:6px 12px;
-      border:none;
-      border-radius:10px;
-      background:#64748b;
-      color:white;
-      font-weight:600;
-      cursor:pointer;
-      transition:0.2s;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 10px;
+      background: #64748b;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
     }
-    #filterBtns button.active, #filterBtns button:hover {
-      background:#2563eb;
+    #filterBtns button.active,
+    #filterBtns button:hover {
+      background: #2563eb;
     }
 
-    #roomList { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:20px; }
+    #roomList {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
 
     .room-card {
-      background:white; border-radius:20px; padding:18px; box-shadow:0 8px 20px rgba(0,0,0,0.05);
-      position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between;
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-    .room-card:hover { transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.08); }
+    .room-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
 
-    .room-number { font-size:28px; font-weight:800; color:#111827; margin-bottom:6px; }
-    .room-info { font-size:14px; color:#64748b; margin-bottom:10px; }
+    .room-number {
+      font-size: 28px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 6px;
+    }
+    .room-info {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
 
-    .status { font-size:13px; padding:6px 12px; border-radius:20px; background:#e5e7eb; color:#374151; font-weight:500; transition:0.3s; white-space:nowrap; position:absolute; top:12px; right:12px; z-index:1; }
-    .done { background:#22c55e !important; color:white; }
+    .status {
+      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #e5e7eb;
+      color: #374151;
+      font-weight: 500;
+      transition: 0.3s;
+      white-space: nowrap;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 1;
+    }
+    .done {
+      background: #22c55e !important;
+      color: white;
+    }
 
-    .clean-btn { margin-top:10px; background:linear-gradient(135deg,#2563eb,#1d4ed8); color:white; border:none; padding:10px; border-radius:12px; font-weight:600; cursor:pointer; transition:0.2s; width:100%; z-index:1; position:relative; }
-    .clean-btn:hover { opacity:0.9; }
-    .clean-btn:active { transform:scale(0.96); }
+    .clean-btn {
+      margin-top: 10px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      width: 100%;
+      z-index: 1;
+      position: relative;
+    }
+    .clean-btn:hover {
+      opacity: 0.9;
+    }
+    .clean-btn:active {
+      transform: scale(0.96);
+    }
 
-    .watermark { position:absolute; top:62px; right:12px; z-index:0; pointer-events:none; }
-    .watermark img { width:220px; opacity:0.22; }
-    .card-content { position:relative; z-index:1; }
+    .watermark {
+      position: absolute;
+      top: 62px;
+      right: 12px;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .watermark img {
+      width: 220px;
+      opacity: 0.22;
+    }
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
 
-    .status-out { background:#ef4444; color:white; border-radius:3px; padding:3px 8px; font-size:13px; font-weight:600; display:inline-block; }
-    .status-in { background:#2563eb; color:white; border-radius:3px; padding:3px 8px; font-size:13px; font-weight:600; display:inline-block; }
+    .status-out {
+      background: #ef4444;
+      color: white;
+      border-radius: 3px;
+      padding: 3px 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    .status-in {
+      background: #2563eb;
+      color: white;
+      border-radius: 3px;
+      padding: 3px 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    /* ===============================
+🔥 완료 오버레이 효과
+=================================*/
+    .complete-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      font-size: 26px;
+      font-weight: 700;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s ease;
+      border-radius: 20px;
+      z-index: 10;
+    }
 
+    /* 활성화 */
+    .room-card.completed .complete-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* 체크 아이콘 */
+    .complete-overlay span {
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+    /* ===============================
+🔥 모바일에서 카드 패딩 줄이기
+=================================*/
+    @media (max-width: 600px) {
+
+      .room-card {
+        padding: 12px;   /* 🔥 기존 18px → 줄임 */
+      }
+
+      .room-number {
+        font-size: 22px;  /* 🔥 숫자도 조금 줄이기 */
+      }
+
+      .status {
+        top: 8px;
+        right: 8px;
+        font-size: 12px;
+      }
+
+    }
   </style>
 </head>
 <body>
-
-<img src="img/logo.png" style="width:250px; height:auto;">
+<img src="img/logo.png" style="width: 250px; height: auto" />
 <div id="loginForm">
   <input type="text" id="username" placeholder="아이디 입력" />
   <input type="password" id="password" placeholder="비밀번호 입력" />
@@ -79,62 +257,75 @@
 </div>
 
 <!-- 필터 버튼 -->
-<div id="filterBtns" style="display:none">
+<div id="filterBtns" style="display: none">
   <button data-filter="all" class="active">전체</button>
   <button data-filter="퇴실">퇴실</button>
   <button data-filter="재실">재실</button>
 </div>
 
-<div id="roomList" style="display:none"></div>
+<div id="roomList" style="display: none"></div>
 
 <script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbzVOShlFerA8d4XT_24L1UjSjeU4nz_XqVtJ0WZDM2mL3s9WkOQE2fBdkO5kEGs8LQ/exec";
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbzVOShlFerA8d4XT_24L1UjSjeU4nz_XqVtJ0WZDM2mL3s9WkOQE2fBdkO5kEGs8LQ/exec";
   let currentTeam = null;
   let allRooms = [];
 
   function login() {
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
-    if(!username||!password){ alert("아이디/비밀번호 입력"); return; }
+    if (!username || !password) {
+      alert("아이디/비밀번호 입력");
+      return;
+    }
 
-    const accounts = { clean1:"1팀", clean2:"2팀" };
-    const passwords = { clean1:"1111", clean2:"2222" };
-    if(accounts[username] && passwords[username] === password){
+    const accounts = { clean1: "1팀", clean2: "2팀" };
+    const passwords = { clean1: "1111", clean2: "2222" };
+    if (accounts[username] && passwords[username] === password) {
       currentTeam = accounts[username];
-      document.getElementById("loginForm").style.display="none";
-      document.getElementById("filterBtns").style.display="flex";
-      document.getElementById("roomList").style.display="grid";
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("filterBtns").style.display = "flex";
+      document.getElementById("roomList").style.display = "grid";
       loadRooms();
-    } else { alert("아이디 또는 비밀번호가 잘못되었습니다"); }
+    } else {
+      alert("아이디 또는 비밀번호가 잘못되었습니다");
+    }
   }
 
   function loadRooms() {
     fetch(`${API_URL}?action=getRooms&team=${encodeURIComponent(currentTeam)}`)
-      .then(res=>res.json())
-      .then((rooms)=>{
+      .then((res) => res.json())
+      .then((rooms) => {
         allRooms = rooms; // 전체 저장
         renderRooms(allRooms);
       })
-      .catch(err=>{ alert("룸리스트 불러오기 실패"); console.error(err); });
+      .catch((err) => {
+        alert("룸리스트 불러오기 실패");
+        console.error(err);
+      });
   }
 
-  function renderRooms(rooms){
-
+  function renderRooms(rooms) {
     const roomList = document.getElementById("roomList");
     roomList.innerHTML = "";
 
-    rooms.forEach(item=>{
-
-      const done = item.done; // ✅ 서버에서 받은 완료 여부
-      const doneText = done ? "✔ 점검완료" : "미점검";
+    rooms.forEach((item) => {
+      const done = item.done;
+      const doneText = done ? "✔ 청소완료" : "미점검";
       const doneClass = done ? "done" : "";
+      const completedClass = done ? "completed" : ""; // 🔥 추가
 
       const card = document.createElement("div");
-      card.className = "room-card";
+      card.className = `room-card ${completedClass}`; // 🔥 여기 추가
 
       card.innerHTML = `
       <div class="watermark">
         <img src="img/logo.png"/>
+      </div>
+
+      <div class="complete-overlay">
+        <span>✔</span>
+        <div>청소 완료</div>
       </div>
 
       <div class="card-content">
@@ -145,7 +336,7 @@
 
             <div class="room-info">
               ${item.type} ·
-              <span class="${item.status==='퇴실'?'status-out':'status-in'}">
+              <span class="${item.status === "퇴실" ? "status-out" : "status-in"}">
                 ${item.status}
               </span>
             </div>
@@ -168,40 +359,42 @@
     });
   }
 
-  function completeCheck(room){
-
+  function completeCheck(room) {
     fetch(`${API_URL}?action=done&room=${encodeURIComponent(room)}&team=${encodeURIComponent(currentTeam)}`)
-      .then(res=>res.json())
-      .then(data=>{
-
+      .then((res) => res.json())
+      .then((data) => {
         const status = document.getElementById(`status-${room}`);
+        const card = status.closest(".room-card");
 
-        if(status){
+        if (status) {
           status.innerText = "✔ 점검완료";
           status.classList.add("done");
         }
 
+        // 🔥 카드에 완료 클래스 추가
+        if (card) {
+          card.classList.add("completed");
+        }
       })
-      .catch(err=>{
+      .catch((err) => {
         alert("저장 실패");
         console.error(err);
       });
-
   }
 
   /* ===============================
-     🔥 필터 버튼 이벤트
-  ================================*/
-  document.getElementById("filterBtns").addEventListener("click", (e)=>{
-    if(e.target.tagName !== "BUTTON") return;
+🔥 필터 버튼 이벤트
+================================*/
+  document.getElementById("filterBtns").addEventListener("click", (e) => {
+    if (e.target.tagName !== "BUTTON") return;
     const filter = e.target.dataset.filter;
-    document.querySelectorAll("#filterBtns button").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll("#filterBtns button").forEach((b) => b.classList.remove("active"));
     e.target.classList.add("active");
 
-    if(filter==="all"){
+    if (filter === "all") {
       renderRooms(allRooms);
     } else {
-      renderRooms(allRooms.filter(r=>r.status===filter));
+      renderRooms(allRooms.filter((r) => r.status === filter));
     }
   });
 </script>

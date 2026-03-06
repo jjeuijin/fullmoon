@@ -1,467 +1,481 @@
 <!doctype html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>🧹 청소팀 객실 점검</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🧹 청소팀 객실 점검</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
 
-        <style>
-            * {
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0;
-                font-family: "Segoe UI", sans-serif;
-            }
-            body {
-                background: #f4f6fb;
-                padding: 20px;
-            }
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+    }
+    body {
+      background: #f4f6fb;
+      padding: 20px;
+    }
 
-            h2 {
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 24px;
-                font-weight: 700;
-                color: #1e293b;
-            }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e293b;
+    }
 
-            #loginForm,
-            #roomList {
-                max-width: 600px;
-                margin: 0 auto;
-            }
+    #loginForm,
+    #roomList {
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-            #loginForm {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                padding: 20px;
-                background: white;
-                border-radius: 15px;
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-            }
-            #loginForm input {
-                padding: 10px;
-                font-size: 16px;
-                border-radius: 10px;
-                border: 1px solid #ccc;
-            }
-            #loginForm button {
-                padding: 10px;
-                font-size: 16px;
-                border-radius: 12px;
-                border: none;
-                background: #2563eb;
-                color: white;
-                font-weight: 600;
-                cursor: pointer;
-            }
-            #loginForm button:hover {
-                opacity: 0.9;
-            }
+    #loginForm {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    }
+    #loginForm input {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    #loginForm button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #loginForm button:hover {
+      opacity: 0.9;
+    }
 
-            /* ===============================
+    /* ===============================
 🔥 필터 버튼
 =================================*/
-            #filterBtns {
-                display: flex;
-                justify-content: center;
-                gap: 10px;
-                margin: 20px auto 10px auto;
-                max-width: 600px;
-            }
-            #filterBtns button {
-                padding: 6px 12px;
-                border: none;
-                border-radius: 10px;
-                background: #64748b;
-                color: white;
-                font-weight: 600;
-                cursor: pointer;
-                transition: 0.2s;
-            }
-            #filterBtns button.active,
-            #filterBtns button:hover {
-                background: #2563eb;
-            }
+    #filterBtns {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px auto 10px auto;
+      max-width: 600px;
+    }
+    #filterBtns button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 10px;
+      background: #64748b;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    #filterBtns button.active,
+    #filterBtns button:hover {
+      background: #2563eb;
+    }
 
-            #roomList {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 16px;
-                margin-top: 20px;
-            }
+    #roomList {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
 
-            .room-card {
-                background: white;
-                border-radius: 20px;
-                padding: 8px;
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-                position: relative;
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-            }
-            .room-card:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-            }
+    .room-card {
+      background: white;
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .room-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
 
-            .room-number {
-                font-size: 28px;
-                font-weight: 800;
-                color: #111827;
-                margin-bottom: 6px;
-            }
-            .room-info {
-                font-size: 14px;
-                color: #64748b;
-                margin-bottom: 10px;
-            }
+    .room-number {
+      font-size: 28px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 6px;
+    }
+    .room-info {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
 
-            .status {
-                font-size: 13px;
-                padding: 6px 12px;
-                border-radius: 20px;
-                background: #e5e7eb;
-                color: #374151;
-                font-weight: 500;
-                transition: 0.3s;
-                white-space: nowrap;
-                position: absolute;
-                top: 12px;
-                right: 12px;
-                z-index: 1;
-            }
-            .done {
-                background: #22c55e !important;
-                color: white;
-            }
+    .status {
+      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #e5e7eb;
+      color: #374151;
+      font-weight: 500;
+      transition: 0.3s;
+      white-space: nowrap;
+      position: absolute;
+      top: 6px; /* 12px → 6px */
+      right: 8px; /* 12px → 8px */
+      z-index: 2;
+    }
+    .done {
+      background: #22c55e !important;
+      color: white;
+    }
 
-            .clean-btn {
-                margin-top: 10px;
-                background: linear-gradient(135deg, #2563eb, #1d4ed8);
-                color: white;
-                border: none;
-                padding: 10px;
-                border-radius: 12px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: 0.2s;
-                width: 100%;
-                z-index: 1;
-                position: relative;
-            }
-            .clean-btn:hover {
-                opacity: 0.9;
-            }
-            .clean-btn:active {
-                transform: scale(0.96);
-            }
+    .clean-btn {
+      margin-top: 10px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      width: 100%;
+      z-index: 1;
+      position: relative;
+    }
+    .clean-btn:hover {
+      opacity: 0.9;
+    }
+    .clean-btn:active {
+      transform: scale(0.96);
+    }
 
-            .watermark {
-                position: absolute;
-                top: 62px;
-                right: 12px;
-                z-index: 0;
-                pointer-events: none;
-            }
-            .watermark img {
-                width: 220px;
-                opacity: 0.22;
-            }
-            .card-content {
-                position: relative;
-                z-index: 1;
-            }
+    .watermark {
+      position: absolute;
+      top: 62px;
+      right: 12px;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .watermark img {
+      width: 220px;
+      opacity: 0.22;
+    }
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
 
-            .status-out {
-                background: #ef4444;
-                color: white;
-                border-radius: 3px;
-                padding: 3px 8px;
-                font-size: 13px;
-                font-weight: 600;
-                display: inline-block;
-            }
-            .status-in {
-                background: #2563eb;
-                color: white;
-                border-radius: 3px;
-                padding: 3px 8px;
-                font-size: 13px;
-                font-weight: 600;
-                display: inline-block;
-            }
-            /* ===============================
+    .status-out {
+      background: #ef4444;
+      color: white;
+      border-radius: 3px;
+      padding: 3px 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    .status-in {
+      background: #2563eb;
+      color: white;
+      border-radius: 3px;
+      padding: 3px 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    /* ===============================
 🔥 완료 오버레이 효과
 =================================*/
-            .complete-overlay {
-                position: absolute;
-                inset: 0;
-                background: rgba(0, 0, 0, 0.65);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-                color: white;
-                font-size: 26px;
-                font-weight: 700;
-                opacity: 0;
-                visibility: hidden;
-                transition: 0.3s ease;
-                border-radius: 20px;
-                z-index: 10;
-            }
+    .complete-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      font-size: 26px;
+      font-weight: 700;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s ease;
+      border-radius: 20px;
+      z-index: 10;
+    }
 
-            /* 활성화 */
-            .room-card.completed .complete-overlay {
-                opacity: 1;
-                visibility: visible;
-            }
+    /* 활성화 */
+    .room-card.completed .complete-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
 
-            /* 체크 아이콘 */
-            .complete-overlay span {
-                font-size: 40px;
-                margin-bottom: 8px;
-            }
-            /* ===============================
+    /* 체크 아이콘 */
+    .complete-overlay span {
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+    /* ===============================
 🔥 모바일에서 카드 패딩 줄이기
 =================================*/
-            @media (max-width: 600px) {
-                .room-card {
-                    padding: 12px; /* 🔥 기존 18px → 줄임 */
-                }
-
-                .room-number {
-                    font-size: 22px; /* 🔥 숫자도 조금 줄이기 */
-                }
-
-                .status {
-                    top: 4px;
-                    right: 6px;
-                    font-size: 11px;
-                }
-            }
-            /* ===============================
+    @media (max-width: 600px) {
+      .status {
+        top: 4px;
+        right: 2px;
+        font-size: 11px;
+      }
+    }
+    /* ===============================
 🔥 상단 헤더
 ================================*/
-            .header {
-                max-width: 600px;
-                margin: 0 auto 10px auto;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+    .header {
+      max-width: 600px;
+      margin: 0 auto 10px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-            /* 필터 좌측 정렬 */
-            #filterBtns {
-                display: flex;
-                gap: 8px;
-            }
+    /* 필터 좌측 정렬 */
+    #filterBtns {
+      display: flex;
+      gap: 8px;
+    }
 
-            /* 우측 버튼 영역 */
-            .header-buttons {
-                display: flex;
-                gap: 8px;
-            }
+    /* 우측 버튼 영역 */
+    .header-buttons {
+      display: flex;
+      gap: 8px;
+    }
 
-            /* 정사각형 버튼 */
+    /* 정사각형 버튼 */
 
-            .square-btn:hover {
-                opacity: 0.9;
-            }
+    .square-btn:hover {
+      opacity: 0.9;
+    }
 
-            .square-btn:active {
-                transform: scale(0.95);
-            }
-            /* ===============================
+    .square-btn:active {
+      transform: scale(0.95);
+    }
+    /* ===============================
 🔥 상단 헤더
 ================================*/
-            .header {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 10px;
-            }
+    .header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
 
-            /* 필터 버튼 */
-            #filterBtns {
-                display: flex;
-                gap: 8px;
-                margin: 0; /* 🔥 중요 */
-            }
+    /* 필터 버튼 */
+    #filterBtns {
+      display: flex;
+      gap: 8px;
+      margin: 0; /* 🔥 중요 */
+    }
 
-            /* 우측 버튼 영역 */
-            .header-buttons {
-                display: flex;
-                gap: 8px;
-            }
+    /* 우측 버튼 영역 */
+    .header-buttons {
+      display: flex;
+      gap: 8px;
+    }
 
-            /* 정사각형 버튼 */
-            .square-btn {
-                width: 40px;
-                height: 40px;
-                border: none;
-                border-radius: 10px;
-                background: #2563eb;
-                color: white;
-                font-size: 18px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            /* ===============================
+    /* 정사각형 버튼 */
+    .square-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 10px;
+      background: #2563eb;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* ===============================
 🔥 로고 divider
 ================================*/
-            .divider {
-                max-width: 600px;
-                margin: 12px auto 20px auto;
-                height: 1px;
-                background: linear-gradient(to right, transparent, #cbd5f5, transparent);
-            }
-            /* ===============================
+    .divider {
+      max-width: 600px;
+      margin: 12px auto 20px auto;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #cbd5f5, transparent);
+    }
+    /* ===============================
 🔥 Floating 버튼
 ================================*/
-            .fab-container {
-                position: fixed;
-                bottom: -85px;
-                right: 15px;
-                z-index: 999;
-            }
+    .fab-container {
+      position: fixed;
+      bottom: -85px;
+      right: 15px;
+      z-index: 999;
+    }
 
-            .fab-main {
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                border: none;
-                background: #2563eb;
-                color: white;
-                font-size: 22px;
-                cursor: pointer;
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-            }
+    .fab-main {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: none;
+      background: #2563eb;
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
 
-            .fab-menu {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                margin-bottom: 1px;
-                align-items: flex-end;
-                opacity: 0;
-                pointer-events: none;
-                transform: translateY(10px);
-                transition: 0.25s;
-            }
+    .fab-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 1px;
+      align-items: flex-end;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: 0.25s;
+    }
 
-            .fab-container.active .fab-menu {
-                opacity: 1;
-                pointer-events: auto;
-                transform: translateY(0);
-            }
+    .fab-container.active .fab-menu {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
 
-            .fab-btn {
-                width: 45px;
-                height: 45px;
-                border-radius: 50%;
-                border: none;
-                background: #1d4ed8;
-                color: white;
-                font-size: 18px;
-                cursor: pointer;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            }
-        </style>
-    </head>
-    <body>
-        <img src="img/logo.png" style="width: 250px; height: auto" />
-        <div class="divider"></div>
-        <div id="loginForm">
-            <input type="text" id="username" placeholder="아이디 입력" />
-            <input type="password" id="password" placeholder="비밀번호 입력" />
-            <button onclick="login()">로그인</button>
-        </div>
+    .fab-btn {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: none;
+      background: #1d4ed8;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .inspect-btn {
+      margin-top: 10px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-        <!-- 필터 버튼 -->
-        <div class="header">
-            <div id="filterBtns" style="display: none">
-                <button data-filter="all" class="active">전체</button>
-                <button data-filter="퇴실">퇴실</button>
-                <button data-filter="재실">재실</button>
-            </div>
+    .inspect-btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+<img src="img/logo.png" style="width: 250px; height: auto" />
+<div class="divider"></div>
+<div id="loginForm">
+  <input type="text" id="username" placeholder="아이디 입력" />
+  <input type="password" id="password" placeholder="비밀번호 입력" />
+  <button onclick="login()">로그인</button>
+</div>
 
-            <div class="header-buttons"></div>
-        </div>
+<!-- 필터 버튼 -->
+<div class="header">
+  <div id="filterBtns" style="display: none">
+    <button data-filter="all" class="active">전체</button>
+    <button data-filter="퇴실">퇴실</button>
+    <button data-filter="재실">재실</button>
+  </div>
 
-        <div id="roomList" style="display: none"></div>
+  <div class="header-buttons"></div>
+</div>
 
-        <script>
-            const API_URL =
-                "https://script.google.com/macros/s/AKfycbzVOShlFerA8d4XT_24L1UjSjeU4nz_XqVtJ0WZDM2mL3s9WkOQE2fBdkO5kEGs8LQ/exec";
-            let currentTeam = null;
-            let allRooms = [];
+<div id="roomList" style="display: none"></div>
 
-            function login() {
-                const username = document.getElementById("username").value.trim();
-                const password = document.getElementById("password").value.trim();
-                if (!username || !password) {
-                    alert("아이디/비밀번호 입력");
-                    return;
-                }
+<script>
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbwfZtBbEAYbVb3OkL7T1-r9cy9Vq5eL4rn0CmV_vOI7QS_Mnxc9beSuYbKBn3iONsSj/exec";
+  let currentTeam = null;
+  let allRooms = [];
 
-                const accounts = { clean1: "1팀", clean2: "2팀" };
-                const passwords = { clean1: "1111", clean2: "2222" };
-                if (accounts[username] && passwords[username] === password) {
-                    currentTeam = accounts[username];
-                    document.getElementById("loginForm").style.display = "none";
-                    document.getElementById("filterBtns").style.display = "flex";
-                    document.getElementById("roomList").style.display = "grid";
-                    document.getElementById("fabContainer").style.display = "block";
-                    loadRooms();
-                } else {
-                    alert("아이디 또는 비밀번호가 잘못되었습니다");
-                }
-            }
+  function login() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    if (!username || !password) {
+      alert("아이디/비밀번호 입력");
+      return;
+    }
 
-            function loadRooms() {
-                fetch(`${API_URL}?action=getRooms&team=${encodeURIComponent(currentTeam)}`)
-                    .then((res) => res.json())
-                    .then((rooms) => {
-                        allRooms = rooms; // 전체 저장
-                        renderRooms(allRooms);
-                    })
-                    .catch((err) => {
-                        alert("룸리스트 불러오기 실패");
-                        console.error(err);
-                    });
-            }
+    const accounts = { clean1: "1팀", clean2: "2팀" };
+    const passwords = { clean1: "1111", clean2: "2222" };
+    if (accounts[username] && passwords[username] === password) {
+      currentTeam = accounts[username];
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("filterBtns").style.display = "flex";
+      document.getElementById("roomList").style.display = "grid";
+      document.getElementById("fabContainer").style.display = "block";
+      loadRooms();
+    } else {
+      alert("아이디 또는 비밀번호가 잘못되었습니다");
+    }
+  }
 
-            function renderRooms(rooms) {
-                const roomList = document.getElementById("roomList");
-                roomList.innerHTML = "";
+  function loadRooms() {
+    fetch(`${API_URL}?action=getRooms&team=${encodeURIComponent(currentTeam)}`)
+      .then((res) => res.json())
+      .then((rooms) => {
+        allRooms = rooms; // 전체 저장
+        renderRooms(allRooms);
+      })
+      .catch((err) => {
+        alert("룸리스트 불러오기 실패");
+        console.error(err);
+      });
+  }
 
-                rooms.forEach((item) => {
-                    const done = item.done;
-                    const doneText = done ? "✔ 청소완료" : "미점검";
-                    const doneClass = done ? "done" : "";
-                    const completedClass = done ? "completed" : ""; // 🔥 추가
+  function renderRooms(rooms) {
+    const roomList = document.getElementById("roomList");
+    roomList.innerHTML = "";
 
-                    const card = document.createElement("div");
-                    card.className = `room-card ${completedClass}`; // 🔥 여기 추가
+    rooms.forEach((item) => {
+      const done = item.done;
+      const doneText = done ? "✔ 청소완료" : "미점검";
+      const doneClass = done ? "done" : "";
+      const completedClass = done ? "completed" : ""; // 🔥 추가
 
-                    card.innerHTML = `
+      const card = document.createElement("div");
+      card.className = `room-card ${completedClass}`; // 🔥 여기 추가
+
+      card.innerHTML = `
       <div class="watermark">
         <img src="img/logo.png"/>
       </div>
 
       <div class="complete-overlay">
-        <span>✔</span>
-        <div>청소 완료</div>
-      </div>
+  <span>✔</span>
+  <div>청소 완료</div>
+
+  <button class="inspect-btn" onclick="openInspect('${item.room}')">
+    <i class="fa-solid fa-magnifying-glass"></i> 점검완료
+  </button>
+</div>
 
       <div class="card-content">
         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
@@ -490,63 +504,89 @@
       </div>
     `;
 
-                    roomList.appendChild(card);
-                });
-            }
+      roomList.appendChild(card);
+    });
+  }
+  function openInspect(room) {
 
-            function completeCheck(room) {
-                fetch(`${API_URL}?action=done&room=${encodeURIComponent(room)}&team=${encodeURIComponent(currentTeam)}`)
-                    .then((res) => res.json())
-                    .then((data) => {
-                        const status = document.getElementById(`status-${room}`);
-                        const card = status.closest(".room-card");
+    fetch(`${API_URL}?action=inspect&room=${encodeURIComponent(room)}&team=${encodeURIComponent(currentTeam)}`)
+      .then(res => res.json())
+      .then(data => {
 
-                        if (status) {
-                            status.innerText = "✔ 점검완료";
-                            status.classList.add("done");
-                        }
+        const status = document.getElementById(`status-${room}`);
+        const card = status.closest(".room-card");
 
-                        // 🔥 카드에 완료 클래스 추가
-                        if (card) {
-                            card.classList.add("completed");
-                        }
-                    })
-                    .catch((err) => {
-                        alert("저장 실패");
-                        console.error(err);
-                    });
-            }
+        if (card) {
+          card.classList.remove("completed");
+        }
 
-            /* ===============================
+        if (status) {
+          status.innerText = "✔ 점검완료";
+          status.style.background = "#ffffff";
+          status.style.color = "#000000";
+        }
+
+        // 🔥 추가
+        const target = allRooms.find(r => r.room == room);
+        if (target) target.done = false;
+
+      });
+  }
+
+  function completeCheck(room) {
+    fetch(`${API_URL}?action=done&room=${encodeURIComponent(room)}&team=${encodeURIComponent(currentTeam)}`)
+      .then((res) => res.json())
+      .then((data) => {
+
+        const status = document.getElementById(`status-${room}`);
+        const card = status.closest(".room-card");
+
+        if (status) {
+          status.innerText = "✔ 청소완료";
+          status.classList.add("done");
+        }
+
+        if (card) {
+          card.classList.add("completed");
+        }
+
+        // 🔥 추가
+        const target = allRooms.find(r => r.room == room);
+        if (target) target.done = true;
+
+      });
+  }
+
+  /* ===============================
 🔥 필터 버튼 이벤트
 ================================*/
-            document.getElementById("filterBtns").addEventListener("click", (e) => {
-                if (e.target.tagName !== "BUTTON") return;
-                const filter = e.target.dataset.filter;
-                document.querySelectorAll("#filterBtns button").forEach((b) => b.classList.remove("active"));
-                e.target.classList.add("active");
+  document.getElementById("filterBtns").addEventListener("click", (e) => {
+    if (e.target.tagName !== "BUTTON") return;
+    const filter = e.target.dataset.filter;
+    document.querySelectorAll("#filterBtns button").forEach((b) => b.classList.remove("active"));
+    e.target.classList.add("active");
 
-                if (filter === "all") {
-                    renderRooms(allRooms);
-                } else {
-                    renderRooms(allRooms.filter((r) => r.status === filter));
-                }
-            });
-        </script>
-        <div class="fab-container" id="fabContainer" style="display: none">
-            <button class="fab-main" onclick="toggleFab()">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+    if (filter === "all") {
+      renderRooms(allRooms);
+    } else {
+      renderRooms(allRooms.filter((r) => r.status === filter));
+    }
+  });
+</script>
+<div class="fab-container" id="fabContainer" style="display: none">
+  <button class="fab-main" onclick="toggleFab()">
+    <i class="fa-solid fa-bars"></i>
+  </button>
 
-            <div class="fab-menu">
-                <button class="fab-btn" onclick="loadRooms()">
-                    <i class="fa-solid fa-rotate"></i>
-                </button>
+  <div class="fab-menu">
+    <button class="fab-btn" onclick="loadRooms()">
+      <i class="fa-solid fa-rotate"></i>
+    </button>
 
-                <button class="fab-btn">
-                    <i class="fa-solid fa-comment-dots"></i>
-                </button>
-            </div>
-        </div>
-    </body>
+    <button class="fab-btn">
+      <i class="fa-solid fa-comment-dots"></i>
+    </button>
+  </div>
+</div>
+</body>
 </html>

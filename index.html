@@ -411,7 +411,7 @@
 
 <script>
   const API_URL =
-    "https://script.google.com/macros/s/AKfycbwfZtBbEAYbVb3OkL7T1-r9cy9Vq5eL4rn0CmV_vOI7QS_Mnxc9beSuYbKBn3iONsSj/exec";
+    "https://script.google.com/macros/s/AKfycbz0UcvOJjZCpElppCqipgr9yIwgU9fHlRGW-q7R51UA5Yoa5ePHyS0oXwdfemp9byd1/exec";
   let currentTeam = null;
   let allRooms = [];
 
@@ -456,9 +456,28 @@
 
     rooms.forEach((item) => {
       const done = item.done;
-      const doneText = done ? "✔ 청소완료" : "미점검";
-      const doneClass = done ? "done" : "";
-      const completedClass = done ? "completed" : ""; // 🔥 추가
+      const inspect = item.inspect;
+
+      let doneText = "미점검";
+      let doneClass = "";
+
+      if (inspect) {
+        doneText = "✔ 점검완료";
+      } else if (done) {
+        doneText = "✔ 청소완료";
+        doneClass = "done";
+      }
+
+      if (done) {
+        doneText = "✔ 청소완료";
+        doneClass = "done";
+      }
+
+      if (inspect) {
+        doneText = "✔ 점검완료";
+      }
+
+      const completedClass = done || inspect ? "completed" : ""; // 🔥 추가
 
       const card = document.createElement("div");
       card.className = `room-card ${completedClass}`; // 🔥 여기 추가
@@ -508,11 +527,11 @@
     });
   }
   function openInspect(room) {
-
-    fetch(`${API_URL}?action=inspect&room=${encodeURIComponent(room)}&team=${encodeURIComponent(currentTeam)}`)
-      .then(res => res.json())
-      .then(data => {
-
+    fetch(
+      `${API_URL}?action=inspect&room=${encodeURIComponent(room)}&team=${encodeURIComponent(currentTeam)}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
         const status = document.getElementById(`status-${room}`);
         const card = status.closest(".room-card");
 
@@ -527,9 +546,11 @@
         }
 
         // 🔥 추가
-        const target = allRooms.find(r => r.room == room);
-        if (target) target.done = false;
-
+        const target = allRooms.find((r) => r.room == room);
+        if (target) {
+          target.done = false;
+          target.inspect = true;
+        }
       });
   }
 
@@ -537,7 +558,6 @@
     fetch(`${API_URL}?action=done&room=${encodeURIComponent(room)}&team=${encodeURIComponent(currentTeam)}`)
       .then((res) => res.json())
       .then((data) => {
-
         const status = document.getElementById(`status-${room}`);
         const card = status.closest(".room-card");
 
@@ -551,9 +571,8 @@
         }
 
         // 🔥 추가
-        const target = allRooms.find(r => r.room == room);
+        const target = allRooms.find((r) => r.room == room);
         if (target) target.done = true;
-
       });
   }
 

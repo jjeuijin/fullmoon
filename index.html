@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Full Moon 객실팀</title>
+  <title>3S 객실팀</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
   <link rel="icon" href="img/favicon.png">
   <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16.png">
@@ -393,7 +393,7 @@
   </style>
 </head>
 <body>
-<img src="img/logo.png" style="width: 250px; height: auto" />
+<img src="http://3sboutiquehotel.co.kr/images/logo.png" style="width: 250px; height: auto" />
 <div class="divider"></div>
 <div id="loginForm">
   <input type="text" id="username" placeholder="아이디 입력" />
@@ -416,7 +416,7 @@
 
 <script>
   const API_URL =
-    "https://script.google.com/macros/s/AKfycbz0UcvOJjZCpElppCqipgr9yIwgU9fHlRGW-q7R51UA5Yoa5ePHyS0oXwdfemp9byd1/exec";
+    "https://script.google.com/macros/s/AKfycby6-LjHh93qIrGDWK5F5v4VZ1C6wgnwWfAm8oR-zO-wcXchiI74ZL7n_ftQp2Rj2PTv8A/exec";
   let currentTeam = null;
   let allRooms = [];
 
@@ -489,7 +489,7 @@
 
       card.innerHTML = `
       <div class="watermark">
-        <img src="img/logo.png"/>
+        <img src="http://3sboutiquehotel.co.kr/images/logo.png"/>
       </div>
 
       <div class="complete-overlay">
@@ -532,17 +532,13 @@
     });
   }
   function openInspect(room) {
-    fetch(
-      `${API_URL}?action=inspect&room=${encodeURIComponent(room)}&team=${encodeURIComponent(currentTeam)}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
+    fetch(`${API_URL}?action=inspect&room=${encodeURIComponent(room)}&team=${encodeURIComponent(currentTeam)}`)
+      .then(res => res.json())
+      .then(data => {
         const status = document.getElementById(`status-${room}`);
         const card = status.closest(".room-card");
 
-        if (card) {
-          card.classList.remove("completed");
-        }
+        if (card) card.classList.add("completed");
 
         if (status) {
           status.innerText = "✔ 점검완료";
@@ -550,11 +546,11 @@
           status.style.color = "#000000";
         }
 
-        // 🔥 추가
-        const target = allRooms.find((r) => r.room == room);
+        // 🔥 추가: allRooms 상태 업데이트
+        const target = allRooms.find(r => r.room == room);
         if (target) {
-          target.done = false;
           target.inspect = true;
+          target.done = false;
         }
       });
   }
